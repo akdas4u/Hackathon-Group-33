@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
+import { AlertTriangle } from 'lucide-react';
 import type { StageResult } from '../../types';
 
 export interface CriticalIssuesPanelProps {
@@ -19,34 +19,35 @@ export function CriticalIssuesPanel({ stages }: CriticalIssuesPanelProps): React
   }
 
   return (
-    <Card
+    <div
       data-testid="critical-issues-panel"
-      className="border-2 border-status-fail bg-red-50 shadow-lg"
+      className="rounded-lg border-2 border-danger bg-danger-bg shadow-lg"
     >
-      <CardHeader className="border-b-status-fail/30">
-        <CardTitle className="flex items-center gap-2 text-status-fail">
-          <span aria-hidden="true">&#9888;</span>
+      <div className="flex items-center gap-2 border-b border-danger-border/50 p-4">
+        <AlertTriangle size={18} className="text-danger" aria-hidden="true" />
+        <h2 className="text-base font-semibold text-danger">
           Critical Issues ({criticalStages.length})
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
+        </h2>
+      </div>
+      <div className="flex flex-col gap-3 p-4">
         {criticalStages.map((stage) => (
           <div
             key={stage.stageKey}
             data-testid={`critical-issue-${stage.stageKey}`}
-            className="rounded-md border border-status-fail/40 bg-white p-3"
+            className="rounded-md border border-danger-border/60 bg-surface-card p-3"
           >
-            <p className="text-sm font-bold text-status-fail">{stage.stageKey}</p>
-            <p className="mt-1 text-sm text-slate-700">
-              <span className="font-medium">Evidence:</span> {stage.evidence}
+            <p className="text-sm font-bold text-danger">{stage.stageKey}</p>
+            <p className="mt-1 text-sm text-text-secondary">
+              <span className="font-medium text-text-primary">Evidence:</span> {stage.evidence}
             </p>
             {stage.remediation && (
-              <p className="mt-1 text-sm text-slate-700">
-                <span className="font-medium">Remediation:</span> {stage.remediation}
+              <p className="mt-1 text-sm text-text-secondary">
+                <span className="font-medium text-text-primary">Remediation:</span>{' '}
+                {stage.remediation}
               </p>
             )}
             {stage.findings.length > 0 && (
-              <ul className="mt-1 list-inside list-disc text-sm text-slate-600">
+              <ul className="mt-1 list-inside list-disc text-sm text-text-secondary">
                 {stage.findings.map((finding) => (
                   <li key={finding}>{finding}</li>
                 ))}
@@ -54,7 +55,7 @@ export function CriticalIssuesPanel({ stages }: CriticalIssuesPanelProps): React
             )}
           </div>
         ))}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

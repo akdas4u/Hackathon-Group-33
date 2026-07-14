@@ -1,0 +1,95 @@
+/* Design tokens — Version 1 brand. Swap hex values here to re-brand; every
+   component consumes these via Tailwind color/radius/shadow aliases, never
+   a raw hex, so a re-brand never touches component files. */
+:root {
+  --color-brand-teal: #00c6c2;
+  --color-brand-teal-hover: #00a8a5;
+  --color-brand-teal-subtle: #e0fafa;
+  --color-brand-black: #052831;
+
+  --surface-page: #f4f6f8;
+  --surface-card: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-subtle: #f0f4f5;
+  --surface-overlay: rgba(5, 40, 49, 0.6);
+
+  --text-primary: #052831;
+  --text-secondary: #4a6370;
+  --text-muted: #8fa3ab;
+  --text-inverse: #ffffff;
+  --text-on-brand: #ffffff;
+
+  --border-default: #dde4e7;
+  --border-strong: #b0bec5;
+  --border-brand: #00c6c2;
+
+  --color-success: #1e8a4c;
+  --color-success-bg: #e8f7ee;
+  --color-success-border: #a3d9b8;
+
+  --color-warning: #b45309;
+  --color-warning-bg: #fef3e2;
+  --color-warning-border: #f5c842;
+
+  --color-danger: #c0392b;
+  --color-danger-bg: #fdecea;
+  --color-danger-border: #f5a09a;
+
+  --color-info: #1565c0;
+  --color-info-bg: #e3f0fc;
+  --color-info-border: #90c4f7;
+
+  --color-go: #1e8a4c;
+  --color-go-bg: #e8f7ee;
+  --color-conditions: #b45309;
+  --color-conditions-bg: #fef3e2;
+  --color-nogo: #c0392b;
+  --color-nogo-bg: #fdecea;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 3px rgba(5, 40, 49, 0.08);
+  --shadow-md: 0 4px 12px rgba(5, 40, 49, 0.1);
+  --shadow-lg: 0 8px 24px rgba(5, 40, 49, 0.12);
+}
+
+[data-theme='dark'] {
+  --surface-page: #0a1a1f;
+  --surface-card: #0f2530;
+  --surface-elevated: #163040;
+  --surface-subtle: #0d2028;
+  --surface-overlay: rgba(0, 0, 0, 0.7);
+
+  --text-primary: #e8f0f2;
+  --text-secondary: #8fb5c0;
+  --text-muted: #4a7080;
+  --text-inverse: #052831;
+
+  --border-default: #1a3545;
+  --border-strong: #2a4d60;
+  --border-brand: #00c6c2;
+
+  --color-success-bg: #0d2a1a;
+  --color-success-border: #1a5c35;
+
+  --color-warning-bg: #1f1500;
+  --color-warning-border: #7a4800;
+
+  --color-danger-bg: #2a0d0b;
+  --color-danger-border: #7a2020;
+
+  --color-info-bg: #0a1f35;
+  --color-info-border: #1a4a80;
+
+  --color-go-bg: #0d2a1a;
+  --color-conditions-bg: #1f1500;
+  --color-nogo-bg: #2a0d0b;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
