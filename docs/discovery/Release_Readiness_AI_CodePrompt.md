@@ -1,5 +1,5 @@
 # Claude Code Harness Prompt
-## Release Readiness AI Assistant — Hackathon MVP
+## Release Readiness AI Assistant — Hackathon Group 33
 
 ---
 
