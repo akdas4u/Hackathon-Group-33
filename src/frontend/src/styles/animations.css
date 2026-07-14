@@ -1,0 +1,114 @@
+@keyframes pulse-red {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes pulse-border {
+  0%,
+  100% {
+    border-color: var(--color-nogo);
+  }
+  50% {
+    border-color: rgba(192, 57, 43, 0.3);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-pulse-red {
+  animation: pulse-red 1.5s infinite;
+}
+
+.animate-pulse-border {
+  animation: pulse-border 3s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 300ms ease;
+}
+
+.animate-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 200ms ease;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 300ms ease-out;
+}
+
+/* Respect reduced-motion: disable every animation defined above rather than
+   simplifying case-by-case — a static end-state is always an acceptable
+   fallback for these purely decorative transitions. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-red,
+  .animate-pulse-border,
+  .animate-shake,
+  .animate-shimmer,
+  .animate-slide-in-right,
+  .animate-fade-in-up {
+    animation: none !important;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}

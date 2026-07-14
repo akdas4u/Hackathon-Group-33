@@ -4,6 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Release Readiness AI Assistant</title>
+    <script>
+      // Runs before first paint so there is no light->dark flash. Mirrors the
+      // resolution logic in src/providers/ThemeProvider.tsx — keep both in sync.
+      (function () {
+        try {
+          var raw = localStorage.getItem('release-readiness-ui');
+          var theme = raw ? JSON.parse(raw).state.theme : 'system';
+          var resolved =
+            theme === 'system' || !theme
+              ? window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+              : theme;
+          document.documentElement.setAttribute('data-theme', resolved);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -14,15 +14,22 @@ export function getConfidenceBand(score: number): ConfidenceBand {
 }
 
 export const CONFIDENCE_BAND_CLASSES: Record<ConfidenceBand, string> = {
-  red: 'text-status-fail',
-  amber: 'text-risk-medium',
-  green: 'text-status-pass',
+  red: 'text-danger',
+  amber: 'text-warning',
+  green: 'text-success',
 };
 
 export const CONFIDENCE_BAND_BG_CLASSES: Record<ConfidenceBand, string> = {
-  red: 'bg-status-fail',
-  amber: 'bg-risk-medium',
-  green: 'bg-status-pass',
+  red: 'bg-danger',
+  amber: 'bg-warning',
+  green: 'bg-success',
+};
+
+/** Raw CSS color values (for SVG `stroke`, which does not resolve Tailwind classes). */
+export const CONFIDENCE_BAND_STROKE_VARS: Record<ConfidenceBand, string> = {
+  red: 'var(--color-danger)',
+  amber: 'var(--color-warning)',
+  green: 'var(--color-success)',
 };
 
 export function formatConfidenceScore(score: number): string {
@@ -42,10 +49,18 @@ export const DECISION_LABELS: Record<Decision, string> = {
   NoGo: 'NO GO',
 };
 
-export const DECISION_CLASSES: Record<Decision, string> = {
-  Go: 'bg-status-pass text-white',
-  GoWithConditions: 'bg-risk-medium text-white',
-  NoGo: 'bg-status-fail text-white',
+/** Text color for the big GO / NO GO label — the panel itself stays a neutral card. */
+export const DECISION_LABEL_CLASSES: Record<Decision, string> = {
+  Go: 'text-success',
+  GoWithConditions: 'text-warning',
+  NoGo: 'text-danger',
+};
+
+/** Panel-level emphasis — only NoGo gets the hard-to-miss pulsing red border. */
+export const DECISION_PANEL_CLASSES: Record<Decision, string> = {
+  Go: 'border-border-default bg-surface-card',
+  GoWithConditions: 'border-warning-border bg-warning-bg',
+  NoGo: 'border-2 border-danger bg-danger-bg animate-pulse-border',
 };
 
 export function formatDateTime(iso: string): string {

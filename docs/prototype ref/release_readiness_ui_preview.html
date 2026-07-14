@@ -1,0 +1,546 @@
+
+<style>
+:root {
+  --brand-teal:#00c6c2;--brand-teal-h:#00a8a5;--brand-black:#052831;
+  --surface-page:#f4f6f8;--surface-card:#fff;--surface-subtle:#f0f4f5;
+  --text-primary:#052831;--text-secondary:#4a6370;--text-muted:#8fa3ab;
+  --border-default:#dde4e7;--border-brand:#00c6c2;
+  --color-success:#1e8a4c;--color-success-bg:#e8f7ee;--color-success-border:#a3d9b8;
+  --color-warning:#b45309;--color-warning-bg:#fef3e2;--color-warning-border:#f5c842;
+  --color-danger:#c0392b;--color-danger-bg:#fdecea;--color-danger-border:#f5a09a;
+  --color-info:#1565c0;--color-info-bg:#e3f0fc;--color-info-border:#90c4f7;
+  --shadow-sm:0 1px 3px rgba(5,40,49,.08);--shadow-md:0 4px 12px rgba(5,40,49,.10);
+  --radius-sm:6px;--radius-md:8px;--radius-lg:12px;--radius-full:9999px;
+}
+[data-theme="dark"]{
+  --surface-page:#0a1a1f;--surface-card:#0f2530;--surface-subtle:#0d2028;
+  --text-primary:#e8f0f2;--text-secondary:#8fb5c0;--text-muted:#4a7080;
+  --border-default:#1a3545;
+  --color-success-bg:#0d2a1a;--color-success-border:#1a5c35;
+  --color-warning-bg:#1f1500;--color-warning-border:#7a4800;
+  --color-danger-bg:#2a0d0b;--color-danger-border:#7a2020;
+  --color-info-bg:#0a1f35;--color-info-border:#1a4a80;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);--shadow-md:0 4px 12px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif;}
+body{background:transparent;}
+.wrap{background:var(--surface-page);min-height:500px;padding:0;transition:background .3s;}
+.tabs{display:flex;gap:4px;padding:12px 16px 0;background:var(--brand-black);border-bottom:2px solid var(--brand-teal);}
+.tab{padding:8px 16px;border-radius:6px 6px 0 0;font-size:13px;font-weight:500;cursor:pointer;border:none;background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);transition:all .15s;}
+.tab.active{background:var(--brand-teal);color:#fff;}
+.tab:hover:not(.active){background:rgba(255,255,255,.15);color:#fff;}
+.theme-btn{margin-left:auto;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;display:flex;align-items:center;gap:6px;}
+.panel{display:none;padding:16px;}
+.panel.active{display:block;}
+
+/* LOGIN */
+.login-wrap{display:flex;height:420px;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md);}
+.login-left{width:42%;background:var(--brand-black);padding:28px 24px;display:flex;flex-direction:column;gap:16px;}
+.v1-logo{display:flex;align-items:center;gap:8px;}
+.v1-dot{width:28px;height:28px;background:var(--brand-teal);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;}
+.v1-name{font-size:14px;font-weight:600;color:#fff;}
+.login-tagline{font-size:20px;font-weight:700;color:#fff;line-height:1.3;margin-top:8px;}
+.login-sub{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5;}
+.stage-preview{margin-top:auto;display:flex;flex-direction:column;gap:6px;}
+.sp-row{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);}
+.sp-dot{width:7px;height:7px;border-radius:50%;}
+.sp-dot.pass{background:#1e8a4c;}
+.sp-dot.fail{background:#c0392b;animation:pulse-red 1.5s infinite;}
+.sp-dot.pend{background:#b45309;}
+.sp-label{font-size:11px;color:rgba(255,255,255,.7);}
+.sp-badge{margin-left:auto;font-size:10px;padding:2px 6px;border-radius:9999px;font-weight:500;}
+.sp-badge.pass{background:var(--color-success-bg);color:var(--color-success);}
+.sp-badge.fail{background:var(--color-danger-bg);color:var(--color-danger);}
+.sp-badge.pend{background:var(--color-warning-bg);color:var(--color-warning);}
+@keyframes pulse-red{0%,100%{opacity:1;}50%{opacity:.3;}}
+.login-right{flex:1;background:var(--surface-card);padding:28px 24px;display:flex;flex-direction:column;gap:14px;}
+.login-title{font-size:18px;font-weight:600;color:var(--text-primary);}
+.login-subtitle{font-size:12px;color:var(--text-muted);}
+.form-group{display:flex;flex-direction:column;gap:4px;}
+.form-label{font-size:12px;font-weight:500;color:var(--text-secondary);}
+.form-input{height:38px;border:1px solid var(--border-default);border-radius:var(--radius-md);padding:0 12px;font-size:13px;color:var(--text-primary);background:var(--surface-card);outline:none;transition:border .15s;}
+.form-input:focus{border-color:var(--brand-teal);box-shadow:0 0 0 3px rgba(0,198,194,.12);}
+.role-row{display:flex;gap:6px;flex-wrap:wrap;}
+.role-pill{padding:4px 10px;border-radius:9999px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border-default);background:var(--surface-card);color:var(--text-secondary);transition:all .15s;}
+.role-pill.active,.role-pill:hover{background:var(--brand-teal);color:#fff;border-color:var(--brand-teal);}
+.btn-signin{height:40px;background:var(--brand-teal);color:#fff;border:none;border-radius:var(--radius-md);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;margin-top:auto;}
+.btn-signin:hover{background:var(--brand-teal-h);transform:translateY(-1px);}
+
+/* DASHBOARD */
+.dash-wrap{display:flex;height:440px;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md);}
+.sidebar{width:48px;background:var(--brand-black);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:4px;}
+.nav-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s;color:rgba(255,255,255,.5);font-size:16px;}
+.nav-icon.active{background:rgba(0,198,194,.2);color:var(--brand-teal);border-left:2px solid var(--brand-teal);}
+.nav-icon:hover:not(.active){background:rgba(255,255,255,.1);color:#fff;}
+.dash-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{height:48px;background:var(--surface-card);border-bottom:1px solid var(--border-default);display:flex;align-items:center;padding:0 16px;gap:12px;}
+.breadcrumb{font-size:12px;color:var(--text-muted);}
+.breadcrumb span{color:var(--text-primary);font-weight:500;}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.avatar-sm{width:28px;height:28px;border-radius:50%;background:var(--brand-teal);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;}
+.user-label{font-size:12px;color:var(--text-secondary);}
+.dash-content{flex:1;padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;}
+.page-header{display:flex;align-items:center;justify-content:space-between;}
+.page-title{font-size:15px;font-weight:600;color:var(--text-primary);}
+.btn-assess{padding:6px 14px;background:var(--brand-teal);color:#fff;border:none;border-radius:var(--radius-md);font-size:12px;font-weight:600;cursor:pointer;}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.kpi{background:var(--surface-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:10px 12px;border-left:4px solid;}
+.kpi.neutral{border-left-color:#8fa3ab;}
+.kpi.success{border-left-color:var(--color-success);}
+.kpi.warning{border-left-color:var(--color-warning);}
+.kpi.danger{border-left-color:var(--color-danger);}
+.kpi-val{font-size:22px;font-weight:700;color:var(--text-primary);}
+.kpi-lbl{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;}
+.main-row{display:flex;gap:10px;}
+.pipeline{flex:1;background:var(--surface-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);overflow:hidden;}
+.pipeline-header{padding:10px 14px;border-bottom:1px solid var(--border-default);font-size:13px;font-weight:600;color:var(--text-primary);}
+.stage-row{display:flex;align-items:center;padding:7px 14px;border-bottom:1px solid var(--border-default);gap:10px;font-size:12px;transition:background .1s;cursor:pointer;}
+.stage-row:hover{background:var(--surface-subtle);}
+.stage-row.critical{border-left:3px solid var(--color-danger);}
+.stage-row:last-child{border-bottom:none;}
+.stage-name{width:90px;color:var(--text-primary);font-weight:500;}
+.stage-findings{flex:1;color:var(--text-secondary);font-size:11px;}
+.sbadge{padding:2px 8px;border-radius:9999px;font-size:10px;font-weight:600;border:.5px solid;}
+.sbadge.pass{background:var(--color-success-bg);color:var(--color-success);border-color:var(--color-success-border);}
+.sbadge.fail{background:var(--color-danger-bg);color:var(--color-danger);border-color:var(--color-danger-border);}
+.sbadge.warn{background:var(--color-warning-bg);color:var(--color-warning);border-color:var(--color-warning-border);}
+.sbadge.info{background:var(--color-info-bg);color:var(--color-info);border-color:var(--color-info-border);}
+.rbadge{padding:2px 7px;border-radius:9999px;font-size:10px;font-weight:500;}
+.rbadge.low{background:var(--color-success-bg);color:var(--color-success);}
+.rbadge.med{background:var(--color-warning-bg);color:var(--color-warning);}
+.rbadge.high{background:var(--color-danger-bg);color:var(--color-danger);}
+.decision-panel{width:170px;background:var(--surface-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:14px;display:flex;flex-direction:column;gap:10px;align-items:center;}
+.decision-panel.nogo{border:2px solid var(--color-danger);background:var(--color-danger-bg);animation:pulse-border 3s ease-in-out infinite;}
+@keyframes pulse-border{0%,100%{border-color:var(--color-danger);}50%{border-color:rgba(192,57,43,.3);}}
+.decision-label{font-size:18px;font-weight:700;}
+.decision-label.go{color:var(--color-success);}
+.decision-label.nogo{color:var(--color-danger);}
+.gauge-wrap{position:relative;width:80px;height:80px;}
+.gauge-wrap svg{transform:rotate(-90deg);}
+.gauge-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.gauge-pct{font-size:16px;font-weight:700;color:var(--text-primary);}
+.gauge-sub{font-size:9px;color:var(--text-muted);}
+.dp-actions{width:100%;display:flex;flex-direction:column;gap:5px;}
+.dp-btn{width:100%;padding:5px;border-radius:var(--radius-sm);font-size:10px;font-weight:500;cursor:pointer;border:1px solid var(--border-default);background:var(--surface-card);color:var(--text-secondary);}
+.dp-btn.primary{background:var(--brand-teal);color:#fff;border-color:var(--brand-teal);}
+
+/* SETTINGS */
+.settings-wrap{display:flex;height:440px;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md);}
+.settings-nav{width:150px;background:var(--surface-card);border-right:1px solid var(--border-default);padding:16px 0;}
+.sn-header{padding:0 14px 12px;font-size:14px;font-weight:600;color:var(--text-primary);border-bottom:1px solid var(--border-default);margin-bottom:8px;}
+.sn-item{padding:8px 14px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text-secondary);display:flex;align-items:center;gap:8px;transition:all .1s;}
+.sn-item.active{color:var(--brand-teal);background:rgba(0,198,194,.08);border-right:2px solid var(--brand-teal);}
+.sn-item:hover:not(.active){background:var(--surface-subtle);}
+.settings-content{flex:1;padding:20px;overflow-y:auto;background:var(--surface-page);}
+.sc-title{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:16px;}
+.profile-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.avatar-lg{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--brand-teal),#0a5060);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;}
+.profile-info{display:flex;flex-direction:column;gap:4px;}
+.profile-name{font-size:15px;font-weight:600;color:var(--text-primary);}
+.profile-email{font-size:12px;color:var(--text-muted);}
+.role-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:9999px;font-size:11px;font-weight:600;}
+.role-badge.manager{background:rgba(0,198,194,.12);color:var(--brand-teal);}
+.role-badge.coordinator{background:var(--color-info-bg);color:var(--color-info);}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.field-group{display:flex;flex-direction:column;gap:4px;}
+.field-label{font-size:11px;font-weight:500;color:var(--text-secondary);}
+.field-input{height:34px;border:1px solid var(--border-default);border-radius:var(--radius-md);padding:0 10px;font-size:12px;color:var(--text-primary);background:var(--surface-card);outline:none;}
+.field-input:focus{border-color:var(--brand-teal);}
+.field-input.readonly{background:var(--surface-subtle);color:var(--text-muted);cursor:not-allowed;}
+.user-info-card{background:var(--surface-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:14px;margin-bottom:16px;}
+.uic-title{font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;}
+.uic-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border-default);font-size:12px;}
+.uic-row:last-child{border-bottom:none;}
+.uic-key{color:var(--text-muted);}
+.uic-val{color:var(--text-primary);font-weight:500;}
+.uic-val.timer{color:var(--color-danger);font-family:monospace;}
+.perm-list{display:flex;flex-direction:column;gap:4px;margin-top:8px;}
+.perm-row{display:flex;align-items:center;gap:6px;font-size:11px;}
+.perm-icon{width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;}
+.perm-icon.allow{background:var(--color-success-bg);color:var(--color-success);}
+.perm-icon.deny{background:var(--color-danger-bg);color:var(--color-danger);}
+.perm-text{color:var(--text-secondary);}
+.theme-cards{display:flex;gap:8px;margin-top:8px;}
+.theme-card{flex:1;border:1.5px solid var(--border-default);border-radius:var(--radius-md);padding:8px;cursor:pointer;text-align:center;transition:all .15s;}
+.theme-card.active{border-color:var(--brand-teal);}
+.theme-thumb{height:30px;border-radius:4px;margin-bottom:6px;}
+.theme-thumb.light{background:linear-gradient(135deg,#f4f6f8 50%,#fff 50%);}
+.theme-thumb.dark{background:linear-gradient(135deg,#0a1a1f 50%,#0f2530 50%);}
+.theme-thumb.system{background:linear-gradient(135deg,#f4f6f8 50%,#0a1a1f 50%);}
+.theme-name{font-size:10px;color:var(--text-secondary);font-weight:500;}
+.save-btn{padding:7px 20px;background:var(--brand-teal);color:#fff;border:none;border-radius:var(--radius-md);font-size:12px;font-weight:600;cursor:pointer;float:right;}
+</style>
+
+<h2 class="sr-only">Release Readiness AI — UI preview across Login, Dashboard, and Settings</h2>
+
+<div class="wrap" id="app">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('login')">Login</button>
+    <button class="tab" onclick="showTab('dashboard')">Dashboard</button>
+    <button class="tab" onclick="showTab('settings')">Settings</button>
+    <button class="theme-btn" onclick="toggleTheme()" id="theme-btn">
+      <i class="ti ti-sun" aria-hidden="true"></i> Light
+    </button>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="panel active" id="tab-login">
+    <div class="login-wrap">
+      <div class="login-left">
+        <div class="v1-logo">
+          <div class="v1-dot">V1</div>
+          <span class="v1-name">Version 1</span>
+        </div>
+        <div class="login-tagline">Release with confidence.</div>
+        <div class="login-sub">AI-powered GO/NO-GO decisions for every deployment. Automated. Evidence-based. CAB-ready.</div>
+        <div class="stage-preview">
+          <div class="sp-row"><div class="sp-dot pass"></div><span class="sp-label">Jira stories</span><span class="sp-badge pass">PASS</span></div>
+          <div class="sp-row"><div class="sp-dot fail"></div><span class="sp-label">GitHub PRs</span><span class="sp-badge fail">FAIL</span></div>
+          <div class="sp-row"><div class="sp-dot pass"></div><span class="sp-label">SonarQube</span><span class="sp-badge pass">PASS</span></div>
+          <div class="sp-row"><div class="sp-dot pend"></div><span class="sp-label">Test results</span><span class="sp-badge pend">PENDING</span></div>
+        </div>
+      </div>
+      <div class="login-right">
+        <div>
+          <div class="login-title">Release Readiness AI</div>
+          <div class="login-subtitle">Sign in to assess release readiness</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <div class="role-row" id="role-row">
+            <button class="role-pill active" onclick="selectRole(this,'RC')">Coordinator</button>
+            <button class="role-pill" onclick="selectRole(this,'RM')">Manager</button>
+            <button class="role-pill" onclick="selectRole(this,'QA')">QA Lead</button>
+            <button class="role-pill" onclick="selectRole(this,'DE')">DevOps</button>
+            <button class="role-pill" onclick="selectRole(this,'AD')">Admin</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input class="form-input" id="email" type="email" value="coordinator@version1.com" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="pwd">Password</label>
+          <input class="form-input" id="pwd" type="password" value="demo1234" placeholder="Enter password">
+        </div>
+        <button class="btn-signin" onclick="doLogin()">Sign in</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="panel" id="tab-dashboard">
+    <div class="dash-wrap">
+      <div class="sidebar">
+        <div style="width:32px;height:32px;background:var(--brand-teal);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;margin-bottom:8px;">V1</div>
+        <div class="nav-icon active"><i class="ti ti-layout-dashboard" aria-hidden="true"></i></div>
+        <div class="nav-icon"><i class="ti ti-git-branch" aria-hidden="true"></i></div>
+        <div class="nav-icon"><i class="ti ti-file-analytics" aria-hidden="true"></i></div>
+        <div style="flex:1;"></div>
+        <div class="nav-icon" onclick="toggleTheme()"><i class="ti ti-moon" aria-hidden="true" id="sidebar-moon"></i></div>
+        <div class="nav-icon"><i class="ti ti-settings" aria-hidden="true"></i></div>
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--brand-teal);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;">RC</div>
+      </div>
+      <div class="dash-main">
+        <div class="topbar">
+          <span class="breadcrumb">Releases / <span>v2.4.1-hotfix</span></span>
+          <div class="topbar-right">
+            <div class="avatar-sm">RC</div>
+            <span class="user-label">R. Coordinator</span>
+          </div>
+        </div>
+        <div class="dash-content">
+          <div class="page-header">
+            <span class="page-title">Release dashboard</span>
+            <button class="btn-assess" onclick="runAssessment()">Run assessment</button>
+          </div>
+          <div class="kpi-row">
+            <div class="kpi neutral"><div class="kpi-val">12</div><div class="kpi-lbl">Total releases</div></div>
+            <div class="kpi success"><div class="kpi-val">8</div><div class="kpi-lbl">GO</div></div>
+            <div class="kpi warning"><div class="kpi-val">2</div><div class="kpi-lbl">Conditions</div></div>
+            <div class="kpi danger"><div class="kpi-val" id="nogo-count">2</div><div class="kpi-lbl">NO GO</div></div>
+          </div>
+          <div class="main-row">
+            <div class="pipeline">
+              <div class="pipeline-header">Pipeline stages — v2.4.1-hotfix</div>
+              <div class="stage-row"><span class="stage-name">Jira</span><span class="stage-findings">18/20 stories done</span><span class="sbadge pass">PASS</span>&nbsp;<span class="rbadge low">LOW</span></div>
+              <div class="stage-row critical"><span class="stage-name">GitHub</span><span class="stage-findings">1 unmerged hotfix PR</span><span class="sbadge fail">FAIL</span>&nbsp;<span class="rbadge high">CRITICAL</span></div>
+              <div class="stage-row"><span class="stage-name">SonarQube</span><span class="stage-findings">Gate passed, 2 smells</span><span class="sbadge pass">PASS</span>&nbsp;<span class="rbadge low">LOW</span></div>
+              <div class="stage-row"><span class="stage-name">Test results</span><span class="stage-findings">487/500 passed</span><span class="sbadge pass">PASS</span>&nbsp;<span class="rbadge med">MEDIUM</span></div>
+              <div class="stage-row"><span class="stage-name">Azure Monitor</span><span class="stage-findings">99.8% avail, 0 critical</span><span class="sbadge pass">PASS</span>&nbsp;<span class="rbadge low">LOW</span></div>
+              <div class="stage-row critical"><span class="stage-name">Deployment</span><span class="stage-findings">Missing API config key</span><span class="sbadge fail">FAIL</span>&nbsp;<span class="rbadge high">CRITICAL</span></div>
+              <div class="stage-row"><span class="stage-name">Stress test</span><span class="stage-findings">P95 320ms @ 500 RPS</span><span class="sbadge pass">PASS</span>&nbsp;<span class="rbadge low">LOW</span></div>
+            </div>
+            <div class="decision-panel nogo" id="decision-panel">
+              <div style="font-size:10px;color:var(--color-danger);font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Decision</div>
+              <div class="decision-label nogo" id="decision-label">NO GO</div>
+              <div class="gauge-wrap">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                  <circle cx="40" cy="40" r="30" fill="none" stroke="var(--border-default)" stroke-width="6"/>
+                  <circle id="gauge-ring" cx="40" cy="40" r="30" fill="none" stroke="var(--color-danger)" stroke-width="6" stroke-dasharray="188.5" stroke-dashoffset="188.5" stroke-linecap="round"/>
+                </svg>
+                <div class="gauge-center">
+                  <div class="gauge-pct" id="gauge-pct">0%</div>
+                  <div class="gauge-sub">confidence</div>
+                </div>
+              </div>
+              <div style="font-size:10px;color:var(--text-muted);text-align:center;line-height:1.4;">2 critical blockers detected</div>
+              <div class="dp-actions">
+                <button class="dp-btn primary">Export PDF</button>
+                <button class="dp-btn" onclick="runAssessment()">Re-run</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="panel" id="tab-settings">
+    <div class="settings-wrap">
+      <div class="settings-nav">
+        <div class="sn-header">Settings</div>
+        <div class="sn-item active" onclick="showSetting(this,'profile')"><i class="ti ti-user" aria-hidden="true"></i> Profile</div>
+        <div class="sn-item" onclick="showSetting(this,'appearance')"><i class="ti ti-palette" aria-hidden="true"></i> Appearance</div>
+        <div class="sn-item" onclick="showSetting(this,'notifications')"><i class="ti ti-bell" aria-hidden="true"></i> Notifications</div>
+        <div class="sn-item" onclick="showSetting(this,'security')"><i class="ti ti-shield" aria-hidden="true"></i> Security</div>
+        <div class="sn-item" onclick="showSetting(this,'prefs')"><i class="ti ti-sliders" aria-hidden="true"></i> Release prefs</div>
+      </div>
+      <div class="settings-content" id="setting-content">
+        <div id="setting-profile">
+          <div class="sc-title">Profile</div>
+          <div class="profile-header">
+            <div class="avatar-lg">RC</div>
+            <div class="profile-info">
+              <div class="profile-name">Riley Coordinator</div>
+              <div class="profile-email">r.coordinator@version1.com</div>
+              <span class="role-badge coordinator"><i class="ti ti-user" aria-hidden="true"></i> Release Coordinator</span>
+            </div>
+          </div>
+          <div class="user-info-card">
+            <div class="uic-title">Session information</div>
+            <div class="uic-row"><span class="uic-key">Role</span><span class="uic-val"><span class="role-badge coordinator" style="font-size:10px;">Coordinator</span></span></div>
+            <div class="uic-row"><span class="uic-key">Last login</span><span class="uic-val">14 Jul 2025 09:41 · xxx.xxx.1.x</span></div>
+            <div class="uic-row"><span class="uic-key">Session expires</span><span class="uic-val timer" id="session-timer">00:47:22</span></div>
+            <div class="uic-row"><span class="uic-key">Account created</span><span class="uic-val">03 Jan 2025</span></div>
+            <div class="perm-list">
+              <div class="uic-title" style="margin-top:8px;">Permissions</div>
+              <div class="perm-row"><div class="perm-icon allow">✓</div><span class="perm-text">View pipeline stages</span></div>
+              <div class="perm-row"><div class="perm-icon allow">✓</div><span class="perm-text">Trigger assessments</span></div>
+              <div class="perm-row"><div class="perm-icon allow">✓</div><span class="perm-text">Export PDF reports</span></div>
+              <div class="perm-row"><div class="perm-icon deny">✗</div><span class="perm-text">Approve for CAB</span></div>
+              <div class="perm-row"><div class="perm-icon deny">✗</div><span class="perm-text">Manage users</span></div>
+            </div>
+          </div>
+          <div class="field-grid">
+            <div class="field-group"><label class="field-label">Full name</label><input class="field-input" value="Riley Coordinator"></div>
+            <div class="field-group"><label class="field-label">Department</label><input class="field-input" value="Platform Engineering"></div>
+            <div class="field-group"><label class="field-label">Email</label><input class="field-input readonly" readonly value="r.coordinator@version1.com"></div>
+            <div class="field-group"><label class="field-label">Timezone</label><input class="field-input" value="Europe/Dublin (GMT+1)"></div>
+          </div>
+          <button class="save-btn">Save changes</button>
+        </div>
+
+        <div id="setting-appearance" style="display:none;">
+          <div class="sc-title">Appearance</div>
+          <div class="field-label" style="margin-bottom:4px;">Theme</div>
+          <div class="theme-cards">
+            <div class="theme-card" id="tc-light" onclick="pickTheme('light')"><div class="theme-thumb light"></div><div class="theme-name">Light</div></div>
+            <div class="theme-card active" id="tc-dark" onclick="pickTheme('dark')"><div class="theme-thumb dark"></div><div class="theme-name">Dark</div></div>
+            <div class="theme-card" id="tc-system" onclick="pickTheme('system')"><div class="theme-thumb system"></div><div class="theme-name">System</div></div>
+          </div>
+          <div style="margin-top:16px;">
+            <div class="field-label" style="margin-bottom:8px;">Density</div>
+            <div style="display:flex;gap:8px;">
+              <button class="dp-btn" style="flex:1;padding:8px;">Compact</button>
+              <button class="dp-btn primary" style="flex:1;padding:8px;">Comfortable</button>
+              <button class="dp-btn" style="flex:1;padding:8px;">Spacious</button>
+            </div>
+          </div>
+          <div style="margin-top:16px;">
+            <div class="field-label" style="margin-bottom:8px;">Accent colour</div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="width:28px;height:28px;border-radius:50%;background:#00c6c2;border:2px solid var(--border-default);cursor:pointer;"></div>
+              <div style="width:28px;height:28px;border-radius:50%;background:#1565c0;border:2px solid var(--border-default);cursor:pointer;"></div>
+              <div style="width:28px;height:28px;border-radius:50%;background:#6d28d9;border:2px solid var(--border-default);cursor:pointer;"></div>
+              <div style="width:28px;height:28px;border-radius:50%;background:#1e8a4c;border:2px solid var(--border-default);cursor:pointer;"></div>
+              <input type="color" value="#00c6c2" style="width:28px;height:28px;border-radius:50%;border:none;cursor:pointer;padding:0;">
+            </div>
+          </div>
+        </div>
+
+        <div id="setting-notifications" style="display:none;">
+          <div class="sc-title">Notifications</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border-default);">
+              <div><div style="font-size:13px;font-weight:500;color:var(--text-primary);">Assessment complete</div><div style="font-size:11px;color:var(--text-muted);">Notify when an assessment finishes</div></div>
+              <input type="checkbox" checked style="width:36px;height:20px;accent-color:var(--brand-teal);">
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border-default);">
+              <div><div style="font-size:13px;font-weight:500;color:var(--text-primary);">Critical blocker detected</div><div style="font-size:11px;color:var(--text-muted);">Always on for Release Manager</div></div>
+              <input type="checkbox" checked style="width:36px;height:20px;accent-color:var(--brand-teal);">
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border-default);">
+              <div><div style="font-size:13px;font-weight:500;color:var(--text-primary);">GO/NO-GO decision changed</div><div style="font-size:11px;color:var(--text-muted);">Decision revised after re-run</div></div>
+              <input type="checkbox" style="width:36px;height:20px;accent-color:var(--brand-teal);">
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;">
+              <div><div style="font-size:13px;font-weight:500;color:var(--text-primary);">Daily summary email</div><div style="font-size:11px;color:var(--text-muted);">Sprint release summary each morning</div></div>
+              <input type="checkbox" checked style="width:36px;height:20px;accent-color:var(--brand-teal);">
+            </div>
+          </div>
+        </div>
+
+        <div id="setting-security" style="display:none;">
+          <div class="sc-title">Security</div>
+          <div class="user-info-card">
+            <div class="uic-title">Active session</div>
+            <div class="uic-row"><span class="uic-key">Device</span><span class="uic-val">Chrome 126 · macOS</span></div>
+            <div class="uic-row"><span class="uic-key">IP address</span><span class="uic-val">xxx.xxx.1.x</span></div>
+            <div class="uic-row"><span class="uic-key">Location</span><span class="uic-val">Dublin, IE</span></div>
+          </div>
+          <div style="margin-top:12px;">
+            <div class="field-label" style="margin-bottom:8px;">Change password</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <input class="field-input" type="password" placeholder="Current password" style="width:100%;">
+              <input class="field-input" type="password" placeholder="New password" style="width:100%;">
+              <div style="height:4px;border-radius:2px;background:var(--border-default);overflow:hidden;"><div style="width:60%;height:100%;background:var(--color-warning);"></div></div>
+              <input class="field-input" type="password" placeholder="Confirm new password" style="width:100%;">
+            </div>
+          </div>
+        </div>
+
+        <div id="setting-prefs" style="display:none;">
+          <div class="sc-title">Release preferences</div>
+          <div style="margin-bottom:16px;">
+            <div class="field-label" style="margin-bottom:8px;">Default environment</div>
+            <div style="display:flex;gap:8px;">
+              <button class="dp-btn primary" style="flex:1;padding:7px;">Production</button>
+              <button class="dp-btn" style="flex:1;padding:7px;">Staging</button>
+              <button class="dp-btn" style="flex:1;padding:7px;">Development</button>
+            </div>
+          </div>
+          <div style="margin-bottom:16px;">
+            <div class="field-label" style="margin-bottom:8px;">Pipeline stage order</div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--surface-card);border:1px solid var(--border-default);border-radius:var(--radius-sm);">
+                <i class="ti ti-grip-vertical" style="color:var(--text-muted);font-size:14px;" aria-hidden="true"></i>
+                <span style="font-size:12px;color:var(--text-primary);">Jira</span>
+                <span class="sbadge pass" style="margin-left:auto;">Visible</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--surface-card);border:1px solid var(--border-default);border-radius:var(--radius-sm);">
+                <i class="ti ti-grip-vertical" style="color:var(--text-muted);font-size:14px;" aria-hidden="true"></i>
+                <span style="font-size:12px;color:var(--text-primary);">GitHub</span>
+                <span class="sbadge pass" style="margin-left:auto;">Visible</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--surface-card);border:1px solid var(--border-default);border-radius:var(--radius-sm);">
+                <i class="ti ti-grip-vertical" style="color:var(--text-muted);font-size:14px;" aria-hidden="true"></i>
+                <span style="font-size:12px;color:var(--text-primary);">SonarQube</span>
+                <span class="sbadge pass" style="margin-left:auto;">Visible</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let isDark = false;
+let seconds = 47*60+22;
+
+function showTab(t){
+  document.querySelectorAll('.tab').forEach((b,i)=>{
+    b.classList.toggle('active', ['login','dashboard','settings'][i]===t);
+  });
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+}
+
+function toggleTheme(){
+  isDark = !isDark;
+  document.getElementById('app').setAttribute('data-theme', isDark?'dark':'light');
+  const btn = document.getElementById('theme-btn');
+  btn.innerHTML = isDark
+    ? '<i class="ti ti-moon" aria-hidden="true"></i> Dark'
+    : '<i class="ti ti-sun" aria-hidden="true"></i> Light';
+  const tc = document.getElementById('tc-light');
+  const td = document.getElementById('tc-dark');
+  if(tc && td){
+    tc.classList.toggle('active', !isDark);
+    td.classList.toggle('active', isDark);
+  }
+}
+
+function pickTheme(t){
+  document.querySelectorAll('.theme-card').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tc-'+t).classList.add('active');
+  if(t==='light'&&isDark) toggleTheme();
+  if(t==='dark'&&!isDark) toggleTheme();
+}
+
+function selectRole(el, role){
+  document.querySelectorAll('.role-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  const emails = {RC:'coordinator@version1.com',RM:'manager@version1.com',QA:'qalead@version1.com',DE:'devops@version1.com',AD:'admin@version1.com'};
+  document.getElementById('email').value = emails[role]||'';
+}
+
+function doLogin(){
+  showTab('dashboard');
+  document.querySelectorAll('.tab')[1].classList.add('active');
+  document.querySelectorAll('.tab')[0].classList.remove('active');
+  animateGauge(0);
+}
+
+function runAssessment(){
+  const btn = document.querySelector('.btn-assess');
+  btn.textContent = 'Running…';
+  btn.disabled = true;
+  setTimeout(()=>{
+    btn.textContent = 'Run assessment';
+    btn.disabled = false;
+    animateGauge(0);
+  }, 1800);
+}
+
+function animateGauge(targetPct){
+  const ring = document.getElementById('gauge-ring');
+  const pctEl = document.getElementById('gauge-pct');
+  const circumference = 188.5;
+  const offset = circumference - (targetPct/100)*circumference;
+  ring.style.transition = 'stroke-dashoffset 1.2s ease-out';
+  ring.style.strokeDashoffset = offset;
+  let current = 0;
+  const step = setInterval(()=>{
+    current = Math.min(current+1, targetPct);
+    pctEl.textContent = current+'%';
+    if(current>=targetPct) clearInterval(step);
+  }, 12);
+}
+
+function showSetting(el, id){
+  document.querySelectorAll('.sn-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  ['profile','appearance','notifications','security','prefs'].forEach(s=>{
+    const el = document.getElementById('setting-'+s);
+    if(el) el.style.display = s===id?'block':'none';
+  });
+}
+
+function updateTimer(){
+  if(seconds>0) seconds--;
+  const m = Math.floor(seconds/60).toString().padStart(2,'0');
+  const s = (seconds%60).toString().padStart(2,'0');
+  const el = document.getElementById('session-timer');
+  if(el){
+    el.textContent = '00:'+m+':'+s;
+    el.style.color = seconds < 300 ? 'var(--color-danger)' : 'var(--text-primary)';
+  }
+}
+
+setInterval(updateTimer, 1000);
+animateGauge(0);
+</script>
