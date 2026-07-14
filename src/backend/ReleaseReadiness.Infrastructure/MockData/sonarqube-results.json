@@ -1,0 +1,26 @@
+{
+  "_mock": "MOCK: Replace with SonarQube REST API (/api/qualitygates/project_status) in production",
+  "qualityGate": "Passed",
+  "codeSmells": 2,
+  "bugs": 0,
+  "vulnerabilities": 0,
+  "coveragePercent": 82.4,
+  "summary": {
+    "scenarios": {
+      "Blocked": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["Quality gate passed, 2 code smells"],
+        "evidence": "Quality gate: Passed; 2 code smells; 0 bugs; 0 vulnerabilities; 82.4% coverage",
+        "remediation": null
+      },
+      "Clean": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["Quality gate passed, 2 code smells"],
+        "evidence": "Quality gate: Passed; 2 code smells; 0 bugs; 0 vulnerabilities; 82.4% coverage",
+        "remediation": null
+      }
+    }
+  }
+}

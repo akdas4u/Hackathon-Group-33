@@ -1,0 +1,25 @@
+# .NET
+src/backend/**/bin/
+src/backend/**/obj/
+*.user
+
+# Node / frontend
+src/frontend/node_modules/
+src/frontend/dist/
+src/frontend/coverage/
+src/frontend/playwright-report/
+src/frontend/test-results/
+src/frontend/.vite/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vs/
+.vscode/
+*.swp

@@ -1,0 +1,10 @@
+{
+  "_mock": "MOCK: Replace with an identity provider (Azure AD / Entra ID via OAuth2/OIDC) in production. DEV-ONLY: every user shares the plaintext password 'Password123!' -- this file is never used outside local/demo environments and no password value is hardcoded anywhere in source.",
+  "users": [
+    { "username": "coordinator@demo.io", "password": "Password123!", "role": "ReleaseCoordinator" },
+    { "username": "manager@demo.io", "password": "Password123!", "role": "ReleaseManager" },
+    { "username": "qalead@demo.io", "password": "Password123!", "role": "QALead" },
+    { "username": "devops@demo.io", "password": "Password123!", "role": "DevOpsEngineer" },
+    { "username": "admin@demo.io", "password": "Password123!", "role": "Administrator" }
+  ]
+}

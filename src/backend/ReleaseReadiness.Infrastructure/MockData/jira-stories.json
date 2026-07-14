@@ -1,0 +1,47 @@
+{
+  "_mock": "MOCK: Replace with Jira MCP connector or Jira REST API (/rest/api/3/search) in production",
+  "stories": [
+    { "key": "REL-101", "summary": "Add payment retry logic", "status": "Done", "assignee": "a.khan", "storyPoints": 5 },
+    { "key": "REL-102", "summary": "Refresh checkout UI", "status": "Done", "assignee": "s.morales", "storyPoints": 3 },
+    { "key": "REL-103", "summary": "Migrate session store to Redis", "status": "Done", "assignee": "j.oduya", "storyPoints": 8 },
+    { "key": "REL-104", "summary": "Add OWASP header middleware", "status": "Done", "assignee": "a.khan", "storyPoints": 2 },
+    { "key": "REL-105", "summary": "Upgrade Node runtime on workers", "status": "Done", "assignee": "t.nguyen", "storyPoints": 3 },
+    { "key": "REL-106", "summary": "Fix flaky checkout E2E test", "status": "Done", "assignee": "s.morales", "storyPoints": 2 },
+    { "key": "REL-107", "summary": "Add stress test harness", "status": "Done", "assignee": "j.oduya", "storyPoints": 5 },
+    { "key": "REL-108", "summary": "Instrument checkout with OpenTelemetry", "status": "Done", "assignee": "t.nguyen", "storyPoints": 3 },
+    { "key": "REL-109", "summary": "Add rate limiting to public API", "status": "Done", "assignee": "a.khan", "storyPoints": 3 },
+    { "key": "REL-110", "summary": "Refactor pricing service interfaces", "status": "Done", "assignee": "j.oduya", "storyPoints": 5 },
+    { "key": "REL-111", "summary": "Add correlation id propagation", "status": "Done", "assignee": "t.nguyen", "storyPoints": 2 },
+    { "key": "REL-112", "summary": "Update deployment config schema", "status": "Done", "assignee": "s.morales", "storyPoints": 3 },
+    { "key": "REL-113", "summary": "Add PDF export for readiness report", "status": "Done", "assignee": "a.khan", "storyPoints": 5 },
+    { "key": "REL-114", "summary": "Add circuit breaker to SonarQube client", "status": "Done", "assignee": "j.oduya", "storyPoints": 3 },
+    { "key": "REL-115", "summary": "Add role-based authorization policies", "status": "Done", "assignee": "t.nguyen", "storyPoints": 5 },
+    { "key": "REL-116", "summary": "Tune P95 latency on checkout API", "status": "Done", "assignee": "s.morales", "storyPoints": 3 },
+    { "key": "REL-117", "summary": "Add audit logging for GO/NO-GO decisions", "status": "Done", "assignee": "a.khan", "storyPoints": 2 },
+    { "key": "REL-118", "summary": "Document rollback runbook", "status": "Done", "assignee": "j.oduya", "storyPoints": 1 },
+    { "key": "REL-119", "summary": "Add dark-mode support to admin console", "status": "In Progress", "assignee": "t.nguyen", "storyPoints": 3 },
+    { "key": "REL-120", "summary": "Add bulk export for release history", "status": "In Progress", "assignee": "s.morales", "storyPoints": 2 }
+  ],
+  "summary": {
+    "totalStories": 20,
+    "done": 18,
+    "inProgress": 2,
+    "blocked": 0,
+    "scenarios": {
+      "Blocked": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["18/20 stories done, 0 blockers"],
+        "evidence": "18 Done, 2 In Progress, 0 Blocked out of 20 stories in release scope",
+        "remediation": null
+      },
+      "Clean": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["18/20 stories done, 0 blockers"],
+        "evidence": "18 Done, 2 In Progress, 0 Blocked out of 20 stories in release scope",
+        "remediation": null
+      }
+    }
+  }
+}

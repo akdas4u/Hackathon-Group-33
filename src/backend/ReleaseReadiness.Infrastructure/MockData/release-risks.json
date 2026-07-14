@@ -1,0 +1,10 @@
+{
+  "_mock": "MOCK: Replace with a historical analytics / data warehouse query in production",
+  "riskPatterns": [
+    { "category": "Unmerged hotfix PRs at release cut", "historicalFrequencyPercent": 23, "typicalImpact": "High" },
+    { "category": "Missing external API configuration keys", "historicalFrequencyPercent": 11, "typicalImpact": "Critical" },
+    { "category": "Flaky end-to-end tests masking real failures", "historicalFrequencyPercent": 17, "typicalImpact": "Medium" },
+    { "category": "Insufficient stress-test soak duration", "historicalFrequencyPercent": 8, "typicalImpact": "Medium" },
+    { "category": "Unresolved medium-severity CVEs at release", "historicalFrequencyPercent": 14, "typicalImpact": "Low" }
+  ]
+}

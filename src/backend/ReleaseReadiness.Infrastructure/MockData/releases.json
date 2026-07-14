@@ -1,0 +1,8 @@
+{
+  "_mock": "MOCK: Replace with a release management API / database in production",
+  "releases": [
+    { "id": "REL-2001", "name": "Customer Portal", "version": "2.14.0", "status": "InProgress" },
+    { "id": "REL-2002", "name": "Payments Gateway", "version": "5.3.1", "status": "Blocked" },
+    { "id": "REL-2003", "name": "Internal Ops Dashboard", "version": "1.9.0", "status": "Completed" }
+  ]
+}

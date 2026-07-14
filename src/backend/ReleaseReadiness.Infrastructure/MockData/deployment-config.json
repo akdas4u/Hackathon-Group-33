@@ -1,0 +1,23 @@
+{
+  "_mock": "MOCK: Replace with a config management API (e.g. Azure App Configuration) in production",
+  "requiredKeys": ["DATABASE_CONNECTION_STRING", "PAYMENTS_API_KEY", "FEATURE_FLAGS_ENDPOINT", "REDIS_CONNECTION_STRING"],
+  "missingKeys": ["PAYMENTS_API_KEY"],
+  "summary": {
+    "scenarios": {
+      "Blocked": {
+        "status": "Fail",
+        "riskLevel": "Critical",
+        "findings": ["Missing external API configuration key"],
+        "evidence": "Key 'PAYMENTS_API_KEY' absent from release config bundle",
+        "remediation": "Add PAYMENTS_API_KEY to release config before proceeding"
+      },
+      "Clean": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["All required configuration keys present"],
+        "evidence": "PAYMENTS_API_KEY and all other required keys present in release config bundle",
+        "remediation": null
+      }
+    }
+  }
+}

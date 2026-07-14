@@ -1,0 +1,24 @@
+{
+  "_mock": "MOCK: Replace with a load-test results API (e.g. k6 Cloud, Azure Load Testing) in production",
+  "p95LatencyMs": 320,
+  "errorCount": 0,
+  "sustainedRps": 500,
+  "summary": {
+    "scenarios": {
+      "Blocked": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["P95 320ms, 0 errors at 500 RPS (human-in-loop confirmation required)"],
+        "evidence": "P95 latency 320ms; 0 errors; sustained 500 RPS for full soak duration",
+        "remediation": null
+      },
+      "Clean": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["P95 320ms, 0 errors at 500 RPS (human-in-loop confirmation required)"],
+        "evidence": "P95 latency 320ms; 0 errors; sustained 500 RPS for full soak duration",
+        "remediation": null
+      }
+    }
+  }
+}

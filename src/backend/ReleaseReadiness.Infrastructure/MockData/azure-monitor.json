@@ -1,0 +1,24 @@
+{
+  "_mock": "MOCK: Replace with Azure Monitor API (Metrics + Alerts) in production",
+  "availabilityPercent": 99.8,
+  "activeWarnings": 3,
+  "criticalAlerts": 0,
+  "summary": {
+    "scenarios": {
+      "Blocked": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["99.8% availability, 3 warnings, 0 critical alerts"],
+        "evidence": "Rolling 30-day availability 99.8%; 3 active warning-level alerts; 0 critical alerts",
+        "remediation": null
+      },
+      "Clean": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["99.8% availability, 3 warnings, 0 critical alerts"],
+        "evidence": "Rolling 30-day availability 99.8%; 3 active warning-level alerts; 0 critical alerts",
+        "remediation": null
+      }
+    }
+  }
+}

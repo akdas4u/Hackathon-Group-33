@@ -1,0 +1,10 @@
+{
+  "_mock": "MOCK: Replace with an identity/authorization provider (e.g. Azure AD / Entra ID App Roles) in production",
+  "roles": [
+    { "name": "ReleaseCoordinator", "permissions": ["ReadPipeline", "TriggerAssessment"] },
+    { "name": "ReleaseManager", "permissions": ["ReadPipeline", "TriggerAssessment", "ApproveDecision"] },
+    { "name": "QALead", "permissions": ["ReadTestResults", "ReadPipeline"] },
+    { "name": "DevOpsEngineer", "permissions": ["ReadAllStages", "ReadDeploymentConfig"] },
+    { "name": "Administrator", "permissions": ["ReadPipeline", "TriggerAssessment", "ApproveDecision", "ReadTestResults", "ReadAllStages", "ReadDeploymentConfig"] }
+  ]
+}

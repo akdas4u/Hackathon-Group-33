@@ -1,0 +1,53 @@
+# Dev/demo compose file for Release Readiness AI Assistant.
+# NOT production-ready: no secrets management, no TLS termination, no health-based
+# restart policies tuned for prod, single replica per service. See docs/DeploymentGuide.md
+# and docs/Architecture.md (Production Readiness Checklist) before using this outside a demo.
+#
+# Expects Dockerfiles at src/backend/Dockerfile and src/frontend/Dockerfile
+# (owned by the backend/frontend workstreams).
+
+services:
+  backend:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    image: release-readiness-backend:local
+    container_name: release-readiness-backend
+    ports:
+      - "5000:5000"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:5000
+      Jwt__Secret: dev-secret-min-32-chars-replace-in-prod
+      Jwt__Issuer: ReleaseReadinessAI
+      Jwt__Audience: ReleaseReadinessUI
+      Jwt__ExpiryMinutes: "60"
+      MockData__Enabled: "true"
+      MockData__DataPath: Infrastructure/MockData
+      RateLimit__RequestsPerMinute: "100"
+      Resilience__RetryCount: "3"
+      Resilience__CircuitBreakerThreshold: "5"
+      Resilience__TimeoutSeconds: "10"
+    networks:
+      - release-readiness-net
+
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+    image: release-readiness-frontend:local
+    container_name: release-readiness-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_BASE_URL: http://localhost:5000
+      VITE_APP_ENV: development
+      VITE_MOCK_AUTH: "true"
+    depends_on:
+      - backend
+    networks:
+      - release-readiness-net
+
+networks:
+  release-readiness-net:
+    driver: bridge

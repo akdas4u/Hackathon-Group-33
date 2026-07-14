@@ -1,0 +1,15 @@
+{
+  "_mock": "MOCK: Replace with a release management API / database in production",
+  "history": [
+    { "releaseId": "REL-1990", "name": "Customer Portal", "version": "2.13.0", "decision": "Go", "confidenceScore": 96, "completedAt": "2026-06-02T10:00:00Z" },
+    { "releaseId": "REL-1991", "name": "Payments Gateway", "version": "5.2.0", "decision": "GoWithConditions", "confidenceScore": 71, "completedAt": "2026-06-09T10:00:00Z" },
+    { "releaseId": "REL-1992", "name": "Internal Ops Dashboard", "version": "1.8.0", "decision": "Go", "confidenceScore": 100, "completedAt": "2026-06-16T10:00:00Z" },
+    { "releaseId": "REL-1993", "name": "Customer Portal", "version": "2.13.1", "decision": "NoGo", "confidenceScore": 0, "completedAt": "2026-06-18T10:00:00Z" },
+    { "releaseId": "REL-1994", "name": "Payments Gateway", "version": "5.2.1", "decision": "Go", "confidenceScore": 91, "completedAt": "2026-06-23T10:00:00Z" },
+    { "releaseId": "REL-1995", "name": "Customer Portal", "version": "2.13.2", "decision": "GoWithConditions", "confidenceScore": 64, "completedAt": "2026-06-25T10:00:00Z" },
+    { "releaseId": "REL-1996", "name": "Internal Ops Dashboard", "version": "1.8.1", "decision": "Go", "confidenceScore": 97, "completedAt": "2026-06-30T10:00:00Z" },
+    { "releaseId": "REL-1997", "name": "Payments Gateway", "version": "5.2.2", "decision": "Go", "confidenceScore": 88, "completedAt": "2026-07-02T10:00:00Z" },
+    { "releaseId": "REL-1998", "name": "Customer Portal", "version": "2.13.3", "decision": "GoWithConditions", "confidenceScore": 58, "completedAt": "2026-07-07T10:00:00Z" },
+    { "releaseId": "REL-1999", "name": "Internal Ops Dashboard", "version": "1.8.2", "decision": "Go", "confidenceScore": 94, "completedAt": "2026-07-10T10:00:00Z" }
+  ]
+}

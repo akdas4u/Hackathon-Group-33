@@ -1,0 +1,25 @@
+{
+  "_mock": "MOCK: Replace with a CI test-results API (e.g. Azure DevOps Test Runs, GitHub Actions test reports) in production",
+  "totalTests": 500,
+  "passed": 487,
+  "failed": 5,
+  "skipped": 8,
+  "summary": {
+    "scenarios": {
+      "Blocked": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["487/500 passed, 5 failed (non-critical), 8 skipped"],
+        "evidence": "487 passed / 5 failed (non-critical) / 8 skipped out of 500 total tests",
+        "remediation": null
+      },
+      "Clean": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["487/500 passed, 5 failed (non-critical), 8 skipped"],
+        "evidence": "487 passed / 5 failed (non-critical) / 8 skipped out of 500 total tests",
+        "remediation": null
+      }
+    }
+  }
+}

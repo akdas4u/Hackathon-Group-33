@@ -1,0 +1,198 @@
+name: CI
+
+# Triggers: push to main, pull_request to main.
+# workflow_dispatch exists only so the `deploy` job has a manual entry point;
+# deploy never runs on push/PR (see the `if:` guard on that job).
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+env:
+  DOTNET_VERSION: '9.0.x'
+  NODE_VERSION: '20'
+  BACKEND_DIR: src/backend
+  FRONTEND_DIR: src/frontend
+
+jobs:
+  backend:
+    name: Backend (.NET 9)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore NuGet packages
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run NUnit tests with coverage
+        run: >
+          dotnet test ReleaseReadiness.Tests
+          --no-build --configuration Release
+          --collect:"XPlat Code Coverage"
+          --results-directory ./coverage
+          --logger "trx;LogFileName=test-results.trx"
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          directory: src/backend/coverage
+          flags: backend
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Static analysis - dotnet-format
+        run: dotnet format --verify-no-changes --verbosity diagnostic
+
+      # --- Placeholders below: commented out until credentials/services are provisioned ---
+
+      # - name: SonarQube scan
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   run: |
+      #     dotnet tool install --global dotnet-sonarscanner
+      #     dotnet sonarscanner begin /k:"release-readiness-ai" /d:sonar.token="$SONAR_TOKEN"
+      #     dotnet build --configuration Release
+      #     dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+
+      # - name: OWASP Dependency Check
+      #   uses: dependency-check/Dependency-Check_Action@main
+      #   with:
+      #     project: 'ReleaseReadinessAI'
+      #     path: 'src/backend'
+      #     format: 'HTML'
+
+      # - name: Docker build
+      #   run: docker build -t release-readiness-backend:${{ github.sha }} -f Dockerfile .
+
+  frontend:
+    name: Frontend (React + TypeScript)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: src/frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+
+      - name: ESLint
+        run: npx eslint . --ext .ts,.tsx
+
+      - name: Jest unit tests with coverage
+        run: npx jest --coverage
+
+      - name: Setup .NET (to run backend for contract validation)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Start backend for OpenAPI contract check
+        working-directory: src/backend
+        run: |
+          dotnet restore
+          dotnet run --project ReleaseReadiness.API --configuration Release &
+          echo "Waiting for backend to become healthy..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:5000/health/live > /dev/null; then
+              echo "Backend is up."
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Generate OpenAPI TypeScript client (validates contract, fails on drift)
+        run: |
+          npx openapi-typescript http://localhost:5000/swagger/v1/swagger.json -o src/types/api.generated.ts
+          git diff --exit-code -- src/types/api.generated.ts || (echo "Generated OpenAPI client differs from committed version - contract drift detected." && exit 1)
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Playwright E2E tests
+        run: npx playwright test
+
+      - name: Build production bundle
+        run: npm run build
+
+  performance:
+    name: Performance (k6 smoke)
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Start backend
+        working-directory: src/backend
+        run: |
+          dotnet restore
+          dotnet run --project ReleaseReadiness.API --configuration Release &
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:5000/health/live > /dev/null; then
+              echo "Backend is up."
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Install k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install -y k6
+
+      - name: Run k6 smoke test (10 VUs, 30s)
+        env:
+          K6_VUS: '10'
+          K6_DURATION: '30s'
+          BASE_URL: http://localhost:5000
+        run: k6 run --vus 10 --duration 30s src/backend/ReleaseReadiness.Tests/Performance/assessment-load.js
+        # assessment-load.js defines options.thresholds:
+        #   http_req_duration: ['p(95)<500']
+        #   http_req_failed: ['rate<0.01']
+        # k6 exits non-zero on threshold breach, which fails this step/job.
+
+  deploy:
+    name: Deploy (placeholder)
+    runs-on: ubuntu-latest
+    needs: [backend, frontend, performance]
+    if: github.event_name == 'workflow_dispatch'
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy placeholder
+        run: |
+          echo "Manual-trigger-only placeholder job."
+          echo "Wire this up to your target (Azure App Service / AKS / etc.) when ready."
+          echo "Suggested steps: docker build -> push to registry -> deploy -> smoke test -> notify."

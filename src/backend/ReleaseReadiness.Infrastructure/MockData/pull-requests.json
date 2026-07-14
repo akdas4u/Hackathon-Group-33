@@ -1,0 +1,29 @@
+{
+  "_mock": "MOCK: Replace with GitHub MCP connector or GitHub REST API (/repos/{owner}/{repo}/pulls) in production",
+  "pullRequests": [
+    { "number": 478, "title": "Add rate limiting to public API", "state": "merged", "targetBranch": "release/2.14" },
+    { "number": 480, "title": "Fix flaky checkout E2E test", "state": "merged", "targetBranch": "release/2.14" },
+    { "number": 481, "title": "Update deployment config schema", "state": "merged", "targetBranch": "release/2.14" },
+    { "number": 482, "title": "Hotfix: correct tax rounding on checkout", "state": "open", "targetBranch": "release/2.14", "isHotfix": true }
+  ],
+  "summary": {
+    "openCount": 1,
+    "openHotfixCount": 1,
+    "scenarios": {
+      "Blocked": {
+        "status": "Fail",
+        "riskLevel": "Critical",
+        "findings": ["1 open PR against release branch (unmerged hotfix)"],
+        "evidence": "PR #482 open, targets release/2.14",
+        "remediation": "Merge or close PR #482 before proceeding"
+      },
+      "Clean": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["0 open PRs against release branch"],
+        "evidence": "All PRs merged or closed prior to release cut for release/2.14",
+        "remediation": null
+      }
+    }
+  }
+}

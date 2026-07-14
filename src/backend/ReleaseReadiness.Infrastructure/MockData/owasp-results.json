@@ -1,0 +1,23 @@
+{
+  "_mock": "MOCK: Replace with an OWASP scanner API (e.g. OWASP ZAP, Dependency-Check API) in production",
+  "criticalCves": 0,
+  "mediumFindings": 2,
+  "summary": {
+    "scenarios": {
+      "Blocked": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["0 critical CVEs, 2 medium findings"],
+        "evidence": "Dependency and SAST scan: 0 critical CVEs; 2 medium-severity findings pending triage",
+        "remediation": null
+      },
+      "Clean": {
+        "status": "Pass",
+        "riskLevel": "Low",
+        "findings": ["0 critical CVEs, 2 medium findings"],
+        "evidence": "Dependency and SAST scan: 0 critical CVEs; 2 medium-severity findings pending triage",
+        "remediation": null
+      }
+    }
+  }
+}
