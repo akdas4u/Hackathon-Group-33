@@ -19,6 +19,18 @@ builder.Host.UseSerilog((context, services, loggerConfiguration) =>
             "[{Timestamp:HH:mm:ss} {Level:u3}] ({CorrelationId}) {Message:lj}{NewLine}{Exception}");
 });
 
+// Fail fast and loud if the JWT secret is missing, instead of a confusing per-request
+// crash loop the first time anything tries to authenticate (see JwtAuthenticationSetup).
+// Empty appsettings.json ships "" deliberately (fail-closed default) -- Production must
+// override it via the Jwt__Secret environment variable.
+var jwtSecret = builder.Configuration["Jwt:Secret"];
+if (string.IsNullOrWhiteSpace(jwtSecret))
+{
+    throw new InvalidOperationException(
+        "Jwt:Secret is not configured. Set the Jwt__Secret environment variable to a random " +
+        "string of at least 32 characters before starting this service.");
+}
+
 builder.Services
     .AddControllers()
     .AddJsonOptions(options =>
@@ -69,8 +81,18 @@ app.UseMiddleware<SecurityHeadersMiddleware>();
 app.UseHttpsRedirection();
 app.UseCors(CorsSetup.PolicyName);
 app.UseRateLimiter();
-app.UseAuthentication();
-app.UseAuthorization();
+
+// Health checks must stay reachable even if auth is misconfigured -- they're what a
+// deploy platform (Railway, k8s, etc.) polls to decide if this container is healthy.
+// UseAuthentication() otherwise runs for every request regardless of [AllowAnonymous],
+// so without this branch a broken Jwt:Secret takes down health checks too.
+app.UseWhen(
+    context => !context.Request.Path.StartsWithSegments("/health"),
+    branch =>
+    {
+        branch.UseAuthentication();
+        branch.UseAuthorization();
+    });
 
 app.MapControllers();
 
