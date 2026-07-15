@@ -56,6 +56,48 @@ public sealed class ReleaseReadinessServiceTests
     }
 
     [Test]
+    public async Task AssessAsync_ConditionalScenario_ReturnsGoWithConditions()
+    {
+        var sut = ReleaseReadinessServiceTestFactory.Create("Conditional");
+
+        var response = await sut.AssessAsync(
+            ReleaseReadinessServiceTestFactory.ReleaseId,
+            correlationId: Guid.NewGuid().ToString(),
+            triggeredBy: "test-runner",
+            cancellationToken: CancellationToken.None);
+
+        response.Decision.Should().Be(DecisionType.GoWithConditions);
+        response.ConfidenceScore.Should().Be(70);
+        response.Stages.Should().HaveCount(8);
+        response.Stages.Should().OnlyContain(s => s.Status == StageStatus.Pass);
+        response.Stages.Should().OnlyContain(s => s.RiskLevel == RiskLevel.Medium);
+        response.Stages.Should().OnlyContain(s => !string.IsNullOrWhiteSpace(s.Remediation));
+    }
+
+    [Test]
+    public async Task AssessAsync_PerReleaseScenarioMap_ResolvesScenarioByReleaseId()
+    {
+        var sut = ReleaseReadinessServiceTestFactory.Create(
+            "Blocked",
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["REL-2001"] = "Conditional",
+                ["REL-2003"] = "Clean",
+                ["REL-2004"] = "Blocked"
+            });
+
+        var conditional = await sut.AssessAsync("REL-2001", Guid.NewGuid().ToString(), "test-runner", CancellationToken.None);
+        var go = await sut.AssessAsync("REL-2003", Guid.NewGuid().ToString(), "test-runner", CancellationToken.None);
+        var noGo = await sut.AssessAsync("REL-2004", Guid.NewGuid().ToString(), "test-runner", CancellationToken.None);
+        var fallback = await sut.AssessAsync("REL-2002", Guid.NewGuid().ToString(), "test-runner", CancellationToken.None);
+
+        conditional.Decision.Should().Be(DecisionType.GoWithConditions);
+        go.Decision.Should().Be(DecisionType.Go);
+        noGo.Decision.Should().Be(DecisionType.NoGo);
+        fallback.Decision.Should().Be(DecisionType.NoGo);
+    }
+
+    [Test]
     public async Task AssessAsync_UnknownReleaseId_ThrowsReleaseNotFoundException()
     {
         var sut = ReleaseReadinessServiceTestFactory.Create("Clean");

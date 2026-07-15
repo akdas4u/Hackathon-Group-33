@@ -25,13 +25,13 @@ public sealed class SonarQubeMockClient
         _options = options.Value;
     }
 
-    public async Task<StageFixtureData> GetQualityGateResultAsync(CancellationToken cancellationToken)
+    public async Task<StageFixtureData> GetQualityGateResultAsync(string releaseId, CancellationToken cancellationToken)
     {
         // Simulate an external network round trip so the resilience pipeline has
         // something to time/retry around.
         await Task.Delay(TimeSpan.FromMilliseconds(15), cancellationToken).ConfigureAwait(false);
 
         var document = await _dataProvider.LoadAsync(FileName, cancellationToken).ConfigureAwait(false);
-        return StageFixtureJsonParser.ParseScenario(document, _options.Scenario);
+        return StageFixtureJsonParser.ParseScenario(document, _options.ScenarioFor(releaseId));
     }
 }

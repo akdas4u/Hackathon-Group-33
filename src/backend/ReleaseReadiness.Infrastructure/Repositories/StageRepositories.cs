@@ -51,11 +51,9 @@ public sealed class SonarQubeRepository : ISonarQubeRepository
 
     public async Task<StageFixtureData> GetStageDataAsync(string releaseId, CancellationToken cancellationToken)
     {
-        _ = releaseId;
-
         return await _pipelineProvider.Pipeline.ExecuteAsync(async ct =>
         {
-            var result = await _client.GetQualityGateResultAsync(ct).ConfigureAwait(false);
+            var result = await _client.GetQualityGateResultAsync(releaseId, ct).ConfigureAwait(false);
             await _cache.SetAsync(CacheKey, result, TimeSpan.FromMinutes(30), ct).ConfigureAwait(false);
             return result;
         }, cancellationToken).ConfigureAwait(false);

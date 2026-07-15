@@ -13,6 +13,13 @@
         "evidence": "487 passed / 5 failed (non-critical) / 8 skipped out of 500 total tests",
         "remediation": null
       },
+      "Conditional": {
+        "status": "Pass",
+        "riskLevel": "Medium",
+        "findings": ["463/500 passed, 21 failed (non-critical), 16 skipped"],
+        "evidence": "463 passed / 21 failed (non-critical regression suite) / 16 skipped out of 500 total tests",
+        "remediation": "Triage the 21 failing regression tests and confirm none block critical user journeys"
+      },
       "Clean": {
         "status": "Pass",
         "riskLevel": "Low",

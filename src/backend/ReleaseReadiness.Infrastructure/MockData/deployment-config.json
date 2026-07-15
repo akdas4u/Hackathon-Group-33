@@ -11,6 +11,13 @@
         "evidence": "Key 'PAYMENTS_API_KEY' absent from release config bundle",
         "remediation": "Add PAYMENTS_API_KEY to release config before proceeding"
       },
+      "Conditional": {
+        "status": "Pass",
+        "riskLevel": "Medium",
+        "findings": ["All required keys present; 1 key still using a non-production default"],
+        "evidence": "All 4 required keys present; FEATURE_FLAGS_ENDPOINT points at the staging endpoint in the release config bundle",
+        "remediation": "Replace the staging FEATURE_FLAGS_ENDPOINT value with the production endpoint before deploying"
+      },
       "Clean": {
         "status": "Pass",
         "riskLevel": "Low",

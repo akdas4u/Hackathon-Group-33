@@ -14,6 +14,13 @@
         "evidence": "Quality gate: Passed; 2 code smells; 0 bugs; 0 vulnerabilities; 82.4% coverage",
         "remediation": null
       },
+      "Conditional": {
+        "status": "Pass",
+        "riskLevel": "Medium",
+        "findings": ["Quality gate passed with warnings: 14 code smells, coverage below 80% target"],
+        "evidence": "Quality gate: Passed (warnings); 14 code smells; 1 minor bug; 0 vulnerabilities; 68.2% coverage",
+        "remediation": "Raise branch coverage to the 80% target and burn down new code smells before release"
+      },
       "Clean": {
         "status": "Pass",
         "riskLevel": "Low",

@@ -26,13 +26,14 @@ internal static class ReleaseReadinessServiceTestFactory
 {
     public const string ReleaseId = "REL-2001";
 
-    public static IReleaseReadinessService Create(string scenario)
+    public static IReleaseReadinessService Create(string scenario, Dictionary<string, string>? releaseScenarios = null)
     {
         var mockDataOptions = Options.Create(new MockDataOptions
         {
             Enabled = true,
             DataPath = "Infrastructure/MockData",
-            Scenario = scenario
+            Scenario = scenario,
+            ReleaseScenarios = releaseScenarios ?? new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         });
 
         IMockDataProvider dataProvider = new MockDataProvider(mockDataOptions);

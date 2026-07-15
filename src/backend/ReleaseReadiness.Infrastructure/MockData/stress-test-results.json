@@ -12,6 +12,13 @@
         "evidence": "P95 latency 320ms; 0 errors; sustained 500 RPS for full soak duration",
         "remediation": null
       },
+      "Conditional": {
+        "status": "Pass",
+        "riskLevel": "Medium",
+        "findings": ["P95 780ms above 500ms target, 0 errors at 500 RPS"],
+        "evidence": "P95 latency 780ms against a 500ms target; 0 errors; sustained 500 RPS for full soak duration",
+        "remediation": "Profile the checkout API latency and re-run the soak test to confirm P95 under 500ms"
+      },
       "Clean": {
         "status": "Pass",
         "riskLevel": "Low",

@@ -11,6 +11,13 @@
         "evidence": "Dependency and SAST scan: 0 critical CVEs; 2 medium-severity findings pending triage",
         "remediation": null
       },
+      "Conditional": {
+        "status": "Pass",
+        "riskLevel": "Medium",
+        "findings": ["0 critical CVEs, 6 medium findings pending triage"],
+        "evidence": "Dependency and SAST scan: 0 critical CVEs; 6 medium-severity findings pending triage, 2 in third-party libraries",
+        "remediation": "Triage the 6 medium-severity findings and schedule dependency upgrades for the 2 library CVEs"
+      },
       "Clean": {
         "status": "Pass",
         "riskLevel": "Low",

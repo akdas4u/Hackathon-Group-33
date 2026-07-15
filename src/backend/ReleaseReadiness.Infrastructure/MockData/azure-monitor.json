@@ -12,6 +12,13 @@
         "evidence": "Rolling 30-day availability 99.8%; 3 active warning-level alerts; 0 critical alerts",
         "remediation": null
       },
+      "Conditional": {
+        "status": "Pass",
+        "riskLevel": "Medium",
+        "findings": ["99.2% availability below 99.5% SLO, 7 active warnings, 0 critical alerts"],
+        "evidence": "Rolling 30-day availability 99.2% (SLO 99.5%); 7 active warning-level alerts on checkout API; 0 critical alerts",
+        "remediation": "Resolve the warning-level alerts on the checkout API before the release window"
+      },
       "Clean": {
         "status": "Pass",
         "riskLevel": "Low",

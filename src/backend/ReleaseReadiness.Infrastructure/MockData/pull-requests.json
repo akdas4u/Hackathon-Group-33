@@ -17,6 +17,13 @@
         "evidence": "PR #482 open, targets release/2.14",
         "remediation": "Merge or close PR #482 before proceeding"
       },
+      "Conditional": {
+        "status": "Pass",
+        "riskLevel": "Medium",
+        "findings": ["2 open non-blocking PRs against release branch awaiting review"],
+        "evidence": "PRs #480 and #481 open, target release/2.14; neither flagged as hotfix",
+        "remediation": "Merge or retarget PRs #480 and #481 before the release cut"
+      },
       "Clean": {
         "status": "Pass",
         "riskLevel": "Low",

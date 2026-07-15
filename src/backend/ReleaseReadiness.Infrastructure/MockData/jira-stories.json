@@ -35,6 +35,13 @@
         "evidence": "18 Done, 2 In Progress, 0 Blocked out of 20 stories in release scope",
         "remediation": null
       },
+      "Conditional": {
+        "status": "Pass",
+        "riskLevel": "Medium",
+        "findings": ["15/20 stories done, 3 in progress, 2 at risk of slipping the release window"],
+        "evidence": "15 Done, 3 In Progress, 2 flagged at-risk out of 20 stories in release scope",
+        "remediation": "Descope or complete the 2 at-risk stories (REL-119, REL-120) before the release cut"
+      },
       "Clean": {
         "status": "Pass",
         "riskLevel": "Low",
